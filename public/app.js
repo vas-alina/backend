@@ -13,7 +13,6 @@ async function remove(id) {
     await fetch(`/${id}`, { method: 'DELETE' })
 }
 
-
 document.addEventListener('click', async event => {
     if (event.target.dataset.type === 'edit') {
         const id = event.target.dataset.id
@@ -26,7 +25,6 @@ document.addEventListener('click', async event => {
     }
 })
 
-
 async function edit(id, newTitle) {
     await fetch(`/${id}`, {
         method: 'PUT',
@@ -35,5 +33,4 @@ async function edit(id, newTitle) {
         },
         body: JSON.stringify({ title: newTitle })
     });
-
 }

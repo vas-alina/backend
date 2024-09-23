@@ -1,7 +1,71 @@
 const express = require('express');
 const chalk = require('chalk');
 const path = require('path')
+const yargs = require('yargs')
 const { addNote, getNotes, removeNote, editNote } = require('./notes.controller');
+
+
+
+yargs.command({
+  command: 'add',
+  describe: 'Add new note to list',
+  builder: {
+    title: {
+      type: 'string',
+      describe: 'Note title',
+      demandOption: true
+    }
+  },
+  handler({ title }) {
+    addNote(title)
+  }
+})
+
+yargs.command({
+  command: 'list',
+  describe: 'Print all notes',
+  async handler() {
+    await printNotes()
+  }
+})
+yargs.command({
+  command: 'remove',
+  describe: 'Remove note by id',
+  builder: {
+    id: {
+      describe: 'Note ID',
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler(argv) {
+    removeNote(argv.id);
+  }
+})
+yargs.command({
+  command: 'edit',
+  describe: 'Edit note by id',
+  builder: {
+    id: {
+      describe: 'Note ID',
+      demandOption: true,
+      type: 'string'
+    },
+    title: {
+      describe: 'New note title',
+      demandOption: true,
+      type: 'string'
+    }
+  },
+  handler(argv) {
+    editNote(argv.id, argv.title);
+  }
+})
+
+yargs.parse()
+
+
+
 
 const port = 3000;
 // const basePath = path.join(__dirname, 'pages');
